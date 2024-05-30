@@ -9,42 +9,37 @@ app.use(cors());
 let users = []
 let messages = []
 
-let nextUserId = 1 
+let nextUserId = 1
 
-let nextMessageId = 1 
+let nextMessageId = 1
 
-//------- TEST----
-
-app.get('/',(req,res)=>{
-    res.status(200).send('Welcome to this application');
-})
 
 //------- SIGNUP----
 
-app.post('/signup',(req,res)=>{
-    const {name, email , password} = req.body
+app.post('/signup', (req, res) => {
+    const { name, email, password } = req.body
 
-    
-    if(!name){
+
+    if (!name) {
         res.status(400).json({
-            message: 'Please verify if you pass a valid name'
+            message: 'Por favor, insira um nome válido.'
         })
     }
 
-    if(!email){
+    if (!email) {
         res.status(400).json({
-            message: 'Please verify if you pass a valid  email adress'
+            message: 'Por favor, insira um email válido.'
         })
     }
 
-    if(!password){
+    if (!password) {
         res.status(400).json({
-            message: 'Please verify if you pass a valid  password'
+            message: 'Por favor, insira uma senha válida.'
         })
     }
- 
+
     const newUser = {
-        id: nextUserId, 
+        id: nextUserId,
         name: name,
         email: email,
         password: password
@@ -52,73 +47,73 @@ app.post('/signup',(req,res)=>{
 
     users.push(newUser)
 
-    nextUserId ++
+    nextUserId++
 
     res.status(201).json({
         sucess: true,
         message: ' User registered successfully'
     })
-    
-}) 
+
+})
 
 //--------- LOGIN -------- 
 
-app.post('/login',(req,res)=>{
-    const{email, password} = req.body 
+app.post('/login', (req, res) => {
+    const { email, password } = req.body
 
-    if(!email){
+    if (!email) {
         return res.status(400).json({
-            message: 'Send a valid email'
+            message: 'Envie um email válido.'
         })
     }
 
-    if(!password){
+    if (!password) {
         return res.status(400).json({
-            message: 'Send a valid password'
+            message: 'Envie uma senha válida.'
         })
     }
 
 
-    const userVerify = users.find(user => user.email === email) 
+    const userVerify = users.find(user => user.email === email)
 
-    if(!userVerify){
+    if (!userVerify) {
         return res.status(400).json({
-            message: 'This email does not exist in database'
+            message: 'Usuário não encontrado.'
         })
     }
 
     res.status(200).json({
-        message: "Welcome! You have successfully in tour login",
-        email
+        message: "Usuário logado com sucesso!",
+        data: email
     })
 
 })
 
 //--------- GET USERS -------- 
 
-app.get('/users',(req,res)=>{
+app.get('/usuarios', (req, res) => {
     res.status(200).json({
         sucess: true,
         users
     })
 })
 
-//---------- CREATE MASSAGE ----- 
+//---------- CREATE ERRAND ----- 
 
-app.post('/massage',(req,res)=>{
-    const {email,title,description} = req.body
-    
-    const userVerify = users.find(user => user.email === email) 
+app.post('/recados', (req, res) => {
+    const { email, title, description } = req.body
 
-    if(!userVerify){
+    const userVerify = users.find(user => user.email === email)
+
+    if (!userVerify) {
         res.status(404).json({
             sucess: false,
-            message: "Please enter a valid email to send a message"
+            message: "Por favor, informe um email válido para enviar uma mensagem"
         })
     }
 
-    const newMesage ={
-        id: nextMessageId ,
+    const newMesage = {
+        id: nextMessageId,
         title: title,
         description: description
     }
@@ -126,91 +121,99 @@ app.post('/massage',(req,res)=>{
     nextMessageId++
 
     messages.push(newMesage)
-    
+
     res.status(201).json({
         sucess: true,
-        message: ' Message registered successfully'
+        message: 'Recado criado com sucesso!'
     })
 
 })
 
-//------------- READ MASSAGE -------
+//------------- READ ERRAND -------
 
-app.get ('/massage/:email',(req, res) => {
-    const email= req.params.email
+app.get('/recados/:email', (req, res) => {
+    const email = req.params.email
 
-    const userVerify = users.find(user => user.email === email ) 
+    const userVerify = users.find(user => user.email === email)
 
-    if(!userVerify){
+    if (!userVerify) {
         res.status(404).json({
             sucess: false,
-            message: "Please enter a valid email to send a message"
+            message: "Por favor, informe um email válido para enviar uma mensagem"
         })
     }
 
     res.status(201).json({
         sucess: true,
+        message: 'Recado buscado com sucesso!',
         data: messages
     })
 
 })
 
-//------------- UPDATE MESSAGE -------
+//------------- UPDATE ERRAND -------
 
-app.put('/massage/:id',(req,res)=>{
-    const{title,description} = req.body
+app.put('/recados/:id', (req, res) => {
+    const { title, description } = req.body
     const id = Number(req.params.id)
 
     const verifyMessageId = messages.find(message => message.id === id)
 
-    if(!verifyMessageId){
+    if (!verifyMessageId) {
         res.status(404).json({
             sucess: false,
-            message: "Please enter a valid message id to send a message"
+            message: "Recado não encontrado!"
         })
     }
 
-    const verifyMessageIndex = messages.findIndex((message)=> message.id === id)
+    const verifyMessageIndex = messages.findIndex((message) => message.id === id)
 
-    if(verifyMessageIndex !== -1){
+    if (verifyMessageIndex !== -1) {
         const message = messages[verifyMessageIndex]
         message.title = title
         message.description = description
 
         res.status(200).json({
-            sucess:true,
-            message: "Message update sucessfuly"
+            sucess: true,
+            message: "Recado atualizado com sucesso!"
         })
-        
-    }else{
+
+    } else {
         return res.status(404).json({
-            message: "Message not find"
+            message: "Recado não encontrado!"
         })
     }
 
 })
 
-//---------- DELETE MESSAGE ---------
+//---------- DELETE ERRAND ---------
 
-app.delete('/massage/:id',(req,res)=>{
+app.delete('/recados/:id', (req, res) => {
     const id = Number(req.params.id)
 
     const messageIndex = messages.findIndex((message) => message.id === id)
 
-    if(messageIndex !== -1){
+    if (messageIndex !== -1) {
         const deletedMessage = messages.splice(messageIndex, 1)
 
         res.status(200).json({
-            message: "Product deleted sucessfuly!",
+            message: "Recado deletado com sucesso!",
             deletedMessage
         })
     }
 
-    
+
 })
+
+//------- DEFAULT PATH ----
+
+app.get('/', (req, res) => {
+    res.status(200).send('Bem vindo a API de recados!');
+})
+
 
 //------- VERIFY----
 
-app.listen(3333, ()=>{
-    console.log("Server is running in http://localhost:3333")
+app.listen(3333, () => {
+    console.log("Servidor rodando na porta 3333")
 })
