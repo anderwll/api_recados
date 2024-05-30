@@ -122,18 +122,7 @@ app.post('/recados', (req, res) => {
 
 //------------- READ ERRAND -------
 
-app.get('/recados/:idUser', (req, res) => {
-    const idUser = req.params.idUser
-
-    const userVerify = users.find(user => user.id === idUser)
-
-    if (!userVerify) {
-        res.status(404).json({
-            sucess: false,
-            message: "Por favor, informe um email válido para enviar uma mensagem"
-        })
-    }
-
+app.get('/recados', (req, res) => {
     res.status(201).json({
         sucess: true,
         message: 'Recado buscado com sucesso!',
