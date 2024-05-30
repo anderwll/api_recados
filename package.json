@@ -1,0 +1,19 @@
+{
+  "name": "api_recados",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/MirandaFayra/api_recados.git",
+  "author": "Fayra Miranda <52434685+MirandaFayra@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "sucrase": "^3.35.0"
+  }
+}
