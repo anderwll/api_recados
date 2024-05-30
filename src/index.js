@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 let users = []
-let messages = []
+let recados = []
 
 let nextUserId = 1
 
@@ -51,7 +51,7 @@ app.post('/signup', (req, res) => {
 
     res.status(201).json({
         sucess: true,
-        message: ' User registered successfully'
+        message: 'Usuário criado com sucesso!'
     })
 
 })
@@ -91,7 +91,7 @@ app.post('/login', (req, res) => {
 
 //--------- GET USERS -------- 
 
-app.get('/usuarios', (req, res) => {
+app.get('/users', (req, res) => {
     res.status(200).json({
         sucess: true,
         users
@@ -101,16 +101,7 @@ app.get('/usuarios', (req, res) => {
 //---------- CREATE ERRAND ----- 
 
 app.post('/recados', (req, res) => {
-    const { email, title, description } = req.body
-
-    const userVerify = users.find(user => user.email === email)
-
-    if (!userVerify) {
-        res.status(404).json({
-            sucess: false,
-            message: "Por favor, informe um email válido para enviar uma mensagem"
-        })
-    }
+    const { title, description } = req.body
 
     const newMesage = {
         id: nextMessageId,
@@ -120,7 +111,7 @@ app.post('/recados', (req, res) => {
 
     nextMessageId++
 
-    messages.push(newMesage)
+    recados.push(newMesage)
 
     res.status(201).json({
         sucess: true,
@@ -131,10 +122,10 @@ app.post('/recados', (req, res) => {
 
 //------------- READ ERRAND -------
 
-app.get('/recados/:email', (req, res) => {
-    const email = req.params.email
+app.get('/recados/:idUser', (req, res) => {
+    const idUser = req.params.idUser
 
-    const userVerify = users.find(user => user.email === email)
+    const userVerify = users.find(user => user.id === idUser)
 
     if (!userVerify) {
         res.status(404).json({
@@ -146,7 +137,7 @@ app.get('/recados/:email', (req, res) => {
     res.status(201).json({
         sucess: true,
         message: 'Recado buscado com sucesso!',
-        data: messages
+        data: recados
     })
 
 })
@@ -157,7 +148,7 @@ app.put('/recados/:id', (req, res) => {
     const { title, description } = req.body
     const id = Number(req.params.id)
 
-    const verifyMessageId = messages.find(message => message.id === id)
+    const verifyMessageId = recados.find(message => message.id === id)
 
     if (!verifyMessageId) {
         res.status(404).json({
@@ -166,10 +157,10 @@ app.put('/recados/:id', (req, res) => {
         })
     }
 
-    const verifyMessageIndex = messages.findIndex((message) => message.id === id)
+    const verifyMessageIndex = recados.findIndex((message) => message.id === id)
 
     if (verifyMessageIndex !== -1) {
-        const message = messages[verifyMessageIndex]
+        const message = recados[verifyMessageIndex]
         message.title = title
         message.description = description
 
@@ -191,10 +182,10 @@ app.put('/recados/:id', (req, res) => {
 app.delete('/recados/:id', (req, res) => {
     const id = Number(req.params.id)
 
-    const messageIndex = messages.findIndex((message) => message.id === id)
+    const messageIndex = recados.findIndex((message) => message.id === id)
 
     if (messageIndex !== -1) {
-        const deletedMessage = messages.splice(messageIndex, 1)
+        const deletedMessage = recados.splice(messageIndex, 1)
 
         res.status(200).json({
             message: "Recado deletado com sucesso!",
