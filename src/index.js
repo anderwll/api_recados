@@ -76,10 +76,16 @@ app.post('/login', (req, res) => {
         })
     }
 
+    const data = {
+        id: userVerify.id,
+        name: userVerify.name,
+        email: userVerify.email
+    }
+
     res.status(200).json({
         success: true,
         message: "Usuário logado com successo!",
-        data: userVerify.id
+        data
     })
 
 })

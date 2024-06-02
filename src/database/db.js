@@ -1,7 +1,9 @@
 export let users = [{
-    id: 12321312,
-    name: 'Lucas',
+    id: 123456789,
+    name: 'Usuário Growdev',
     email: 'growdev@email.com',
     password: 'senha123'
 }]
+
+
 export let recados = []
