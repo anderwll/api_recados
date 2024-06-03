@@ -16,7 +16,7 @@ Retorna uma mensagem de boas-vindas.
 
 - **200 OK**
 
-```json
+```
 Bem vindo a API de recados! 🚀
 ```
 
