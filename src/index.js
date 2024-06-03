@@ -150,13 +150,24 @@ app.post('/recados', authMiddleware, (req, res) => {
 
 app.get('/recados', authMiddleware, (req, res) => {
     const userId = Number(req.headers.authorization)
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 10
 
-    const recadosUser = recados.filter(recado => recado.userId === userId)
+    const recadosFound = recados.filter(recado => recado.userId === userId)
+
+    // -- Paginação --
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+
+    const data = {
+        recados: recadosFound.slice(startIndex, endIndex),
+        total: recadosFound.length
+    }
 
     res.status(201).json({
         success: true,
         message: 'Recado buscado com successo!',
-        data: recadosUser
+        data
     })
 
 })
@@ -243,7 +254,7 @@ app.delete('/recados/:id', authMiddleware, (req, res) => {
 //------- DEFAULT PATH ----
 
 app.get('/', (req, res) => {
-    res.status(200).send('Bem vindo a API de recados!');
+    res.status(200).send('Bem vindo a API de recados! 🚀');
 })
 
 
