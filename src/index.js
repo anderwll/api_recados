@@ -161,6 +161,27 @@ app.get('/recados', authMiddleware, (req, res) => {
 
 })
 
+app.get('/recados/:id', authMiddleware, (req, res) => {
+    const id = Number(req.params.id)
+    const userId = Number(req.headers.authorization)
+
+    const recado = recados.find(recado => recado.id === id && recado.userId === userId)
+
+    if (!recado) {
+        res.status(404).json({
+            success: false,
+            message: 'Recado não encontrado!'
+        })
+    }
+
+    res.status(200).json({
+        success: true,
+        message: 'Recado buscado com successo!',
+        data: recado
+    })
+
+});
+
 //------------- UPDATE ERRAND -------
 
 app.put('/recados/:id', authMiddleware, (req, res) => {
