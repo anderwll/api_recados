@@ -36,6 +36,25 @@ Cria um novo usuário.
 }
 ```
 
+**Responses:**
+
+- **201 CREATED**
+
+```json
+{
+  "success": true,
+  "message": "Usuário criado com successo!",
+  "data": [
+    {
+      "id": "number",
+      "name": "string",
+      "email": "string",
+      "password": "string"
+    }
+  ]
+}
+```
+
 ### Login
 
 **POST** `/login`
@@ -48,6 +67,24 @@ Autentica um usuário existente.
 {
   "email": "string",
   "password": "string"
+}
+```
+
+**Responses:**
+
+- **200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Usuário logado com successo!",
+  "data": [
+    {
+      "id": "number",
+      "name": "string",
+      "email": "string"
+    }
+  ]
 }
 ```
 
@@ -84,7 +121,7 @@ Cria um novo recado. Necessita de autenticação.
 
 **Request Headers:**
 
-```json
+```
 Authorization: userId
 ```
 
@@ -97,6 +134,25 @@ Authorization: userId
 }
 ```
 
+**Responses:**
+
+- **201 CREATED**
+
+```json
+{
+  "success": true,
+  "message": "Recado criado com successo!",
+  "data": [
+    {
+      "id": "number",
+      "title": "string",
+      "description": "string",
+      "userId": "number"
+    }
+  ]
+}
+```
+
 ### Listar Recados
 
 **GET** `/recados`
@@ -105,7 +161,7 @@ Retorna os recados do usuário autenticado com suporte a paginação.
 
 **Request Headers:**
 
-```json
+```
 Authorization: userId
 ```
 
@@ -144,7 +200,7 @@ Retorna um recado específico pelo ID. Necessita de autenticação.
 
 **Request Headers:**
 
-```json
+```
 Authorization: userId
 ```
 
@@ -173,7 +229,7 @@ Atualiza um recado específico pelo ID. Necessita de autenticação.
 
 **Request Headers:**
 
-```json
+```
 Authorization: userId
 ```
 
@@ -215,7 +271,7 @@ Deleta um recado específico pelo ID. Necessita de autenticação.
 
 **Request Headers:**
 
-```json
+```
 Authorization: userId
 ```
 
@@ -223,18 +279,19 @@ Authorization: userId
 
 - `id`: ID do recado a ser deletado (number)
 
-- **Responses:**
+**Responses:**
 
 - **200 OK**
-  ```json
-  {
-    "success": true,
-    "message": "Recado deletado com sucesso!",
-    "data": {
-      "id": "number",
-      "title": "string",
-      "description": "string",
-      "userId": "number"
-    }
+
+```json
+{
+  "success": true,
+  "message": "Recado deletado com sucesso!",
+  "data": {
+    "id": "number",
+    "title": "string",
+    "description": "string",
+    "userId": "number"
   }
-  ```
+}
+```
