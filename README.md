@@ -78,13 +78,11 @@ Autentica um usuário existente.
 {
   "success": true,
   "message": "Usuário logado com successo!",
-  "data": [
-    {
-      "id": "number",
-      "name": "string",
-      "email": "string"
-    }
-  ]
+  "data": {
+    "id": "number",
+    "name": "string",
+    "email": "string"
+  }
 }
 ```
 
