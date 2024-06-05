@@ -104,8 +104,7 @@ Retorna todos os usuários cadastrados.
     {
       "id": "number",
       "name": "string",
-      "email": "string",
-      "password": "string"
+      "email": "string"
     }
   ]
 }
@@ -116,12 +115,6 @@ Retorna todos os usuários cadastrados.
 **POST** `/recados`
 
 Cria um novo recado. Necessita de autenticação.
-
-**Request Headers:**
-
-```
-Authorization: userId
-```
 
 **Request Body:**
 
@@ -157,12 +150,6 @@ Authorization: userId
 
 Retorna os recados do usuário autenticado com suporte a paginação.
 
-**Request Headers:**
-
-```
-Authorization: userId
-```
-
 **Query Parameters:**
 
 - `page`: Número da página (default: 1)
@@ -196,12 +183,6 @@ Authorization: userId
 
 Retorna um recado específico pelo ID. Necessita de autenticação.
 
-**Request Headers:**
-
-```
-Authorization: userId
-```
-
 **Responses:**
 
 - **200 OK**
@@ -224,12 +205,6 @@ Authorization: userId
 **PUT** `/recados/:id`
 
 Atualiza um recado específico pelo ID. Necessita de autenticação.
-
-**Request Headers:**
-
-```
-Authorization: userId
-```
 
 **Request Parameters:**
 
@@ -266,12 +241,6 @@ Authorization: userId
 **DELETE** `/recados/:id`
 
 Deleta um recado específico pelo ID. Necessita de autenticação.
-
-**Request Headers:**
-
-```
-Authorization: userId
-```
 
 **Request Parameters:**
 

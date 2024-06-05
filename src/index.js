@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import { recados, users } from './database/db.js';
-import { authMiddleware } from './middlewares/auth.middleware.js';
+import { } from './middlewares/auth.middleware.js';
 
 
 const app = express();
@@ -42,10 +42,17 @@ app.post('/signup', (req, res) => {
 
     users.push(newUser)
 
+    // Remove password with return
+    const userReturn = {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+    }
+
     res.status(201).json({
         success: true,
         message: 'Usuário criado com successo!',
-        data: newUser
+        data: userReturn
     })
 
 })
@@ -93,17 +100,23 @@ app.post('/login', (req, res) => {
 //--------- GET USERS -------- 
 
 app.get('/users', (req, res) => {
+    // Remove password with return
+    const usersReturn = users.map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+    }))
+
     res.status(200).json({
         success: true,
         message: 'Usuários buscados com successo!',
-        data: users
+        data: usersReturn
     })
 })
 
 //---------- CREATE ERRAND ----- 
 
-app.post('/recados', authMiddleware, (req, res) => {
-    const userId = Number(req.headers.authorization)
+app.post('/recados', (req, res) => {
     const { title, description } = req.body
 
     if (!title || title.length < 2) {
@@ -120,20 +133,11 @@ app.post('/recados', authMiddleware, (req, res) => {
         })
     }
 
-    const verifyUser = users.find(user => user.id === userId)
-
-    if (!verifyUser) {
-        res.status(400).json({
-            success: false,
-            message: 'Usuário não encontrado.'
-        })
-    }
-
     const newErrand = {
         id: new Date().getTime(),
         title: title,
         description: description,
-        userId
+        userId: 123456789 // Id mock
     }
 
     recados.push(newErrand)
@@ -148,8 +152,8 @@ app.post('/recados', authMiddleware, (req, res) => {
 
 //------------- READ ERRAND -------
 
-app.get('/recados', authMiddleware, (req, res) => {
-    const userId = Number(req.headers.authorization)
+app.get('/recados', (req, res) => {
+    const userId = 123456789 // Id mock
     const page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || 10
 
@@ -172,9 +176,9 @@ app.get('/recados', authMiddleware, (req, res) => {
 
 })
 
-app.get('/recados/:id', authMiddleware, (req, res) => {
+app.get('/recados/:id', (req, res) => {
+    const userId = 123456789 // Id mock
     const id = Number(req.params.id)
-    const userId = Number(req.headers.authorization)
 
     const recado = recados.find(recado => recado.id === id && recado.userId === userId)
 
@@ -195,18 +199,9 @@ app.get('/recados/:id', authMiddleware, (req, res) => {
 
 //------------- UPDATE ERRAND -------
 
-app.put('/recados/:id', authMiddleware, (req, res) => {
+app.put('/recados/:id', (req, res) => {
     const id = Number(req.params.id)
     const { title, description } = req.body
-
-    const verifyMessageId = recados.find(r => r.id === id)
-
-    if (!verifyMessageId) {
-        res.status(404).json({
-            success: false,
-            message: "Recado não encontrado!"
-        })
-    }
 
     const verifyIndex = recados.findIndex((r) => r.id === id)
 
@@ -230,7 +225,7 @@ app.put('/recados/:id', authMiddleware, (req, res) => {
 
 //---------- DELETE ERRAND ---------
 
-app.delete('/recados/:id', authMiddleware, (req, res) => {
+app.delete('/recados/:id', (req, res) => {
     const id = Number(req.params.id)
 
     const verifyIndex = recados.findIndex((r) => r.id === id)
