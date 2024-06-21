@@ -123,6 +123,7 @@ app.get('/users', (req, res) => {
 //---------- CREATE ERRAND ----- 
 
 app.post('/recados', (req, res) => {
+    const userId = Number(req.headers.authorization)
     const { title, description } = req.body
 
     if (!title || title.length < 2) {
@@ -143,7 +144,7 @@ app.post('/recados', (req, res) => {
         id: new Date().getTime(),
         title: title,
         description: description,
-        userId: 123456789 // Id mock
+        userId: userId
     }
 
     recados.push(newErrand)
@@ -159,7 +160,7 @@ app.post('/recados', (req, res) => {
 //------------- READ ERRAND -------
 
 app.get('/recados', (req, res) => {
-    const userId = 123456789 // Id mock
+    const userId = Number(req.headers.authorization)
     const page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || 10
 
@@ -183,7 +184,7 @@ app.get('/recados', (req, res) => {
 })
 
 app.get('/recados/:id', (req, res) => {
-    const userId = 123456789 // Id mock
+    const userId = Number(req.headers.authorization)
     const id = Number(req.params.id)
 
     const recado = recados.find(recado => recado.id === id && recado.userId === userId)
@@ -206,10 +207,11 @@ app.get('/recados/:id', (req, res) => {
 //------------- UPDATE ERRAND -------
 
 app.put('/recados/:id', (req, res) => {
+    const userId = Number(req.headers.authorization)
     const id = Number(req.params.id)
     const { title, description } = req.body
 
-    const verifyIndex = recados.findIndex((r) => r.id === id)
+    const verifyIndex = recados.findIndex((r) => r.id === id && r.userId === userId)
 
     if (verifyIndex === -1) {
         return res.status(404).json({
