@@ -17,18 +17,21 @@ app.post('/signup', (req, res) => {
 
     if (!name) {
         res.status(400).json({
+            success: false,
             message: 'Por favor, insira um nome válido.'
         })
     }
 
     if (!email) {
         res.status(400).json({
+            success: false,
             message: 'Por favor, insira um email válido.'
         })
     }
 
     if (!password) {
         res.status(400).json({
+            success: false,
             message: 'Por favor, insira uma senha válida.'
         })
     }
@@ -64,12 +67,14 @@ app.post('/login', (req, res) => {
 
     if (!email) {
         return res.status(400).json({
+            success: false,
             message: 'Envie um email válido.'
         })
     }
 
     if (!password) {
         return res.status(400).json({
+            success: false,
             message: 'Envie uma senha válida.'
         })
     }
@@ -79,6 +84,7 @@ app.post('/login', (req, res) => {
 
     if (!userVerify) {
         return res.status(400).json({
+            success: false,
             message: 'E-mail ou senha inválidos.'
         })
     }
