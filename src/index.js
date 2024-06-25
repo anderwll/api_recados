@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import { recados, users } from './database/db.js';
-import { } from './middlewares/auth.middleware.js';
+import { authMiddleware } from './middlewares/auth.middleware.js';
 
 
 const app = express();
