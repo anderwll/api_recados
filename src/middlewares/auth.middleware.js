@@ -16,7 +16,7 @@ export function authMiddleware(req, res, next) {
     if (!userFound) {
         return res.status(401).json({
             success: false,
-            message: "Não autorizado! Você não está logado."
+            message: "Não autorizado!"
         })
     }
 

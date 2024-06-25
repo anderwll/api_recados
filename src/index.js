@@ -122,7 +122,7 @@ app.get('/users', (req, res) => {
 
 //---------- CREATE ERRAND ----- 
 
-app.post('/recados', (req, res) => {
+app.post('/recados', authMiddleware, (req, res) => {
     const userId = Number(req.headers.authorization)
     const { title, description } = req.body
 
@@ -159,7 +159,7 @@ app.post('/recados', (req, res) => {
 
 //------------- READ ERRAND -------
 
-app.get('/recados', (req, res) => {
+app.get('/recados', authMiddleware, (req, res) => {
     const userId = Number(req.headers.authorization)
     const page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || 10
@@ -177,13 +177,13 @@ app.get('/recados', (req, res) => {
 
     res.status(201).json({
         success: true,
-        message: 'Recado buscado com successo!',
+        message: 'Recados buscado com successo!',
         data
     })
 
 })
 
-app.get('/recados/:id', (req, res) => {
+app.get('/recados/:id', authMiddleware, (req, res) => {
     const userId = Number(req.headers.authorization)
     const id = Number(req.params.id)
 
@@ -206,7 +206,7 @@ app.get('/recados/:id', (req, res) => {
 
 //------------- UPDATE ERRAND -------
 
-app.put('/recados/:id', (req, res) => {
+app.put('/recados/:id', authMiddleware, (req, res) => {
     const userId = Number(req.headers.authorization)
     const id = Number(req.params.id)
     const { title, description } = req.body
@@ -233,7 +233,7 @@ app.put('/recados/:id', (req, res) => {
 
 //---------- DELETE ERRAND ---------
 
-app.delete('/recados/:id', (req, res) => {
+app.delete('/recados/:id', authMiddleware, (req, res) => {
     const id = Number(req.params.id)
 
     const verifyIndex = recados.findIndex((r) => r.id === id)
