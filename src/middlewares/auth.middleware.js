@@ -1,6 +1,9 @@
 import { users } from "../database/db"
 
 
+// header = { authorization   }
+// body
+
 export function authMiddleware(req, res, next) {
     const userId = req.headers.authorization
 

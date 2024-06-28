@@ -5,23 +5,21 @@ export let users = [{
     password: 'senha123'
 }]
 
-// export let recados = []
+export let recadosArrayFrom = Array.from({ length: 50 }, (_, index) => {
+    return {
+        id: new Date().getTime(),
+        title: `Recado ${index + 1}`,
+        description: `${index + 1} - Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado.`,
+        userId: 123456789
+    }
+})
 
-export let recados = [{
-    id: new Date().getTime(),
-    title: 'Recado 1',
-    description: 'Descrição do recado 1',
-    userId: 123456789
-},
-{
-    id: new Date().getTime(),
-    title: 'Recado 2',
-    description: 'Descrição do recado 2',
-    userId: 123456789
-},
-{
-    id: new Date().getTime(),
-    title: 'Recado 3',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    userId: 123456789
-}]
+export let recados = [
+    {
+        id: new Date().getTime(),
+        title: 'Recado diferente',
+        description: 'Descrição do recado diferente.',
+        userId: 123456789
+    },
+    ...recadosArrayFrom
+]

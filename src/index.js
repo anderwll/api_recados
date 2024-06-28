@@ -159,26 +159,36 @@ app.post('/recados', authMiddleware, (req, res) => {
 
 //------------- READ ERRAND -------
 
+// localhost:3333/recados?page=1&limit=5
+
+// localhost:3333/recados?page=8&limit=5
+
 app.get('/recados', authMiddleware, (req, res) => {
     const userId = Number(req.headers.authorization)
-    const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || 10
+
+    // const { page, } = req.query // = "1"
+    const page = Number(req.query.page) || 1 // = 1, 2, 3, 4, 5, 6, 7, 8
+    const limit = Number(req.query.limit) || 5
 
     const recadosFound = recados.filter(recado => recado.userId === userId)
 
-    // -- Paginação --
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
+    // recadosFound = [ recado1, recado2, recado3, recado4, recado 5 ]
 
-    const data = {
-        recados: recadosFound.slice(startIndex, endIndex),
-        total: recadosFound.length
-    }
+    const startIndex = (page - 1) * limit // 1 - 1 = 0 * 5 = 0 || 2 - 1 = 1 * 5 = 5 
+    const endIndex = page * limit  //  1 * 5 = 5 || 2 * 5 = 10  
 
-    res.status(201).json({
+    //    0    2 == [  0 , 1  ] // Não conta o fim 
+    // slice(inicio, fim)
+
+    const recadosPaginacao = recadosFound.slice(startIndex, endIndex)
+
+    res.status(200).json({
         success: true,
         message: 'Recados buscado com successo!',
-        data
+        data: {
+            recados: recadosPaginacao,
+            total: recadosFound.length
+        }
     })
 
 })
