@@ -120,6 +120,35 @@ app.get('/users', (req, res) => {
     })
 })
 
+// ---------- GET USER BY ID -------
+
+app.get('/users/:id', authMiddleware, (req, res) => {
+    const id = Number(req.params.id)
+
+    const user = users.find(user => user.id === id)
+
+    if (!user) {
+        res.status(404).json({
+            success: false,
+            message: 'Usuário não encontrado!'
+        })
+    }
+
+    // Remove password with return
+    const userReturn = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+    }
+
+    res.status(200).json({
+        success: true,
+        message: 'Usuário buscado com successo!',
+        data: userReturn
+    })
+
+});
+
 //---------- CREATE ERRAND ----- 
 
 app.post('/recados', authMiddleware, (req, res) => {
